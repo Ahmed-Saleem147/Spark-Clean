@@ -1,0 +1,724 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SparkClean — Professional Laundry & Dry Cleaning</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Open+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --blue:#0B3C5D;--aqua:#00C9A7;--white:#fff;--sky:#E6F7FF;
+  --blue-dark:#072d46;--aqua-dark:#00a88b;--text:#1a2e3d;--muted:#4a6274;
+  --card-radius:16px;--btn-radius:50px;--shadow:0 4px 24px rgba(11,60,93,0.10);
+  --shadow-lg:0 8px 40px rgba(11,60,93,0.16)
+}
+html{scroll-behavior:smooth;font-family:'Open Sans',sans-serif}
+body{color:var(--text);overflow-x:hidden;background:#fff}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;transition:all .3s;padding:20px 0}
+nav.scrolled{background:rgba(11,60,93,0.97);backdrop-filter:blur(10px);padding:12px 0;box-shadow:0 2px 20px rgba(0,0,0,.15)}
+.nav-inner{max-width:1200px;margin:0 auto;padding:0 24px;display:flex;align-items:center;justify-content:space-between}
+.logo{font-family:'Poppins',sans-serif;font-weight:800;font-size:22px;color:#fff;text-decoration:none;display:flex;align-items:center;gap:8px}
+.logo-icon{width:36px;height:36px;background:var(--aqua);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.logo-icon svg{width:20px;height:20px;fill:#fff}
+.nav-links{display:flex;align-items:center;gap:28px;list-style:none}
+.nav-links a{color:rgba(255,255,255,.88);text-decoration:none;font-size:14px;font-weight:500;transition:.2s}
+.nav-links a:hover{color:var(--aqua)}
+.btn-nav{background:var(--aqua);color:#fff!important;padding:10px 22px;border-radius:var(--btn-radius);font-weight:600!important;transition:all .2s!important}
+.btn-nav:hover{background:var(--aqua-dark);transform:translateY(-1px)}
+.hamburger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px}
+.hamburger span{display:block;width:24px;height:2px;background:#fff;border-radius:2px;transition:.3s}
+.mobile-menu{display:none;position:fixed;top:0;left:0;right:0;bottom:0;background:var(--blue);z-index:999;flex-direction:column;align-items:center;justify-content:center;gap:32px}
+.mobile-menu.open{display:flex}
+.mobile-menu a{color:#fff;font-size:24px;font-family:'Poppins',sans-serif;font-weight:600;text-decoration:none}
+.close-menu{position:absolute;top:24px;right:24px;background:none;border:none;color:#fff;font-size:28px;cursor:pointer}
+
+/* HERO */
+/* HERO SLIDER */
+.hero{min-height:100vh;position:relative;display:flex;align-items:center;overflow:hidden}
+.hero-slider{position:absolute;inset:0;width:100%;height:100%}
+.slide{position:absolute;inset:0;background-size:cover;background-position:center;opacity:0;transform:scale(1.08);transition:opacity 1.2s ease,transform 6s ease;z-index:0}
+.slide.active{opacity:1;transform:scale(1);z-index:1}
+.slide.prev{opacity:0;transform:scale(0.96);z-index:0}
+.slide-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(5,30,55,0.82) 0%,rgba(11,60,93,0.65) 60%,rgba(0,0,0,0.45) 100%)}
+.slide-content{position:relative;z-index:2;max-width:700px;padding:0 60px;animation:none}
+.slide.active .slide-content>*{animation:slideUp .9s ease both}
+.slide.active .slide-content>*:nth-child(1){animation-delay:.2s}
+.slide.active .slide-content>*:nth-child(2){animation-delay:.4s}
+.slide.active .slide-content>*:nth-child(3){animation-delay:.6s}
+.slide.active .slide-content>*:nth-child(4){animation-delay:.75s}
+.hero{display:flex;align-items:center;min-height:100vh}
+.hero>.slide-content-wrap{position:relative;z-index:5;width:100%;display:flex;align-items:center;min-height:100vh;padding-top:80px}
+.slider-prev,.slider-next{position:absolute;top:50%;transform:translateY(-50%);z-index:10;background:rgba(255,255,255,.12);border:2px solid rgba(255,255,255,.3);color:#fff;width:54px;height:54px;border-radius:50%;font-size:28px;cursor:pointer;transition:.25s;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
+.slider-prev{left:24px}
+.slider-next{right:24px}
+.slider-prev:hover,.slider-next:hover{background:var(--aqua);border-color:var(--aqua);transform:translateY(-50%) scale(1.1)}
+.slider-dots{position:absolute;bottom:100px;left:50%;transform:translateX(-50%);z-index:10;display:flex;gap:10px}
+.dot{width:10px;height:10px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;transition:.3s;border:2px solid transparent}
+.dot.active{background:var(--aqua);border-color:#fff;width:28px;border-radius:6px}
+.hero-stats-bar{position:absolute;bottom:0;left:0;right:0;z-index:10;background:rgba(7,45,70,.88);backdrop-filter:blur(10px);display:flex;align-items:center;justify-content:center;gap:0;padding:20px 0}
+.stat-bar-item{text-align:center;padding:0 48px}
+.stat-bar-item strong{display:block;font-family:'Poppins',sans-serif;font-size:26px;font-weight:800;color:#fff}
+.stat-bar-item span{font-size:12px;color:rgba(255,255,255,.55);font-weight:500;text-transform:uppercase;letter-spacing:1px}
+.stat-bar-divider{width:1px;height:40px;background:rgba(255,255,255,.15)}
+/* Slide inner layout */
+.hero-slider-inner{position:relative;z-index:5;width:100%;max-width:1200px;margin:0 auto;padding:160px 24px 120px;min-height:100vh;display:flex;align-items:center}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,201,167,.18);border:1px solid rgba(0,201,167,.4);padding:8px 18px;border-radius:50px;font-size:13px;color:var(--aqua);font-weight:700;margin-bottom:22px}
+.slide-content h1{font-family:'Poppins',sans-serif;font-size:clamp(36px,5vw,68px);font-weight:800;color:#fff;line-height:1.1;margin-bottom:20px;text-shadow:0 2px 20px rgba(0,0,0,.3)}
+.slide-content h1 span{color:var(--aqua)}
+.slide-content p{font-size:19px;color:rgba(255,255,255,.82);line-height:1.7;margin-bottom:36px;max-width:520px;text-shadow:0 1px 8px rgba(0,0,0,.2)}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap}
+@media(max-width:768px){
+  .slide-content{padding:0 24px}
+  .stat-bar-item{padding:0 20px}
+  .stat-bar-item strong{font-size:18px}
+  .slider-prev,.slider-next{width:40px;height:40px;font-size:20px}
+}
+.bubbles{position:absolute;inset:0;overflow:hidden;pointer-events:none}
+.bubble{position:absolute;border-radius:50%;background:rgba(0,201,167,.12);animation:float linear infinite}
+@keyframes float{0%{transform:translateY(100vh) scale(0)}100%{transform:translateY(-100px) scale(1)}}
+.hero-inner{max-width:1200px;margin:0 auto;padding:120px 24px 80px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:center;position:relative;z-index:2;width:100%}
+.hero-badge{display:inline-flex;align-items:center;gap:8px;background:rgba(0,201,167,.15);border:1px solid rgba(0,201,167,.3);padding:8px 16px;border-radius:50px;font-size:13px;color:var(--aqua);font-weight:600;margin-bottom:20px;animation:slideDown .7s ease both}
+@keyframes slideDown{from{opacity:0;transform:translateY(-20px)}to{opacity:1;transform:translateY(0)}}
+.hero h1{font-family:'Poppins',sans-serif;font-size:clamp(32px,4.5vw,56px);font-weight:800;color:#fff;line-height:1.15;margin-bottom:20px;animation:slideUp .8s ease .2s both}
+.hero h1 span{color:var(--aqua)}
+.hero p{font-size:18px;color:rgba(255,255,255,.75);line-height:1.7;margin-bottom:36px;animation:slideUp .8s ease .35s both}
+@keyframes slideUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}
+.hero-btns{display:flex;gap:16px;flex-wrap:wrap;animation:slideUp .8s ease .5s both}
+.btn-primary{background:var(--aqua);color:#fff;padding:15px 32px;border-radius:var(--btn-radius);font-size:16px;font-weight:700;text-decoration:none;border:none;cursor:pointer;transition:all .25s;font-family:'Open Sans',sans-serif;display:inline-block}
+.btn-primary:hover{background:var(--aqua-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(0,201,167,.4)}
+.btn-outline{background:transparent;color:#fff;padding:14px 32px;border-radius:var(--btn-radius);font-size:16px;font-weight:700;text-decoration:none;border:2px solid rgba(255,255,255,.4);cursor:pointer;transition:all .25s;font-family:'Open Sans',sans-serif;display:inline-block}
+.btn-outline:hover{border-color:#fff;background:rgba(255,255,255,.08);transform:translateY(-2px)}
+.hero-stats{display:flex;gap:32px;margin-top:40px;animation:slideUp .8s ease .65s both}
+.stat{text-align:center}
+.stat strong{display:block;font-family:'Poppins',sans-serif;font-size:28px;font-weight:800;color:#fff}
+.stat span{font-size:12px;color:rgba(255,255,255,.6);font-weight:500}
+.hero-visual{animation:slideUp .9s ease .3s both;position:relative}
+.hero-card{background:rgba(255,255,255,.1);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.15);border-radius:24px;padding:32px;color:#fff}
+.hero-card h3{font-family:'Poppins',sans-serif;font-size:18px;font-weight:700;margin-bottom:20px;color:var(--aqua)}
+.service-pill{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.08);border-radius:12px;padding:12px 16px;margin-bottom:10px;transition:.2s}
+.service-pill:hover{background:rgba(0,201,167,.15)}
+.service-pill .icon{width:36px;height:36px;background:var(--aqua);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
+.service-pill div{flex:1}
+.service-pill .name{font-weight:600;font-size:14px}
+.service-pill .price{font-size:12px;color:rgba(255,255,255,.6)}
+.pill-tag{background:rgba(0,201,167,.2);color:var(--aqua);font-size:11px;font-weight:700;padding:3px 8px;border-radius:50px}
+
+/* SECTIONS */
+section{padding:100px 0}
+.container{max-width:1200px;margin:0 auto;padding:0 24px}
+.section-label{font-size:13px;font-weight:700;color:var(--aqua);text-transform:uppercase;letter-spacing:2px;margin-bottom:12px}
+.section-title{font-family:'Poppins',sans-serif;font-size:clamp(28px,3.5vw,42px);font-weight:800;color:var(--blue);line-height:1.2;margin-bottom:16px}
+.section-sub{font-size:17px;color:var(--muted);line-height:1.7;max-width:560px}
+.section-head{margin-bottom:60px}
+
+/* SERVICES */
+.services-bg{background:var(--sky)}
+.services-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:24px}
+.service-card{background:#fff;border-radius:var(--card-radius);padding:28px 24px;box-shadow:var(--shadow);transition:all .3s;cursor:pointer;border:1.5px solid transparent;position:relative;overflow:hidden}
+.service-card::before{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(0,201,167,.06),transparent);opacity:0;transition:.3s}
+.service-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg);border-color:var(--aqua)}
+.service-card:hover::before{opacity:1}
+.service-icon{width:56px;height:56px;background:linear-gradient(135deg,var(--sky),rgba(0,201,167,.15));border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:26px;margin-bottom:16px;transition:.3s}
+.service-card:hover .service-icon{background:linear-gradient(135deg,var(--aqua),var(--aqua-dark));transform:scale(1.08)}
+.service-card h3{font-family:'Poppins',sans-serif;font-weight:700;font-size:17px;color:var(--blue);margin-bottom:8px}
+.service-card p{font-size:14px;color:var(--muted);line-height:1.6}
+.service-arrow{position:absolute;bottom:20px;right:20px;width:32px;height:32px;background:var(--sky);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:14px;color:var(--aqua);transition:.3s;opacity:0}
+.service-card:hover .service-arrow{opacity:1;background:var(--aqua);color:#fff}
+
+/* HOW IT WORKS */
+.steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative}
+.steps::before{content:'';position:absolute;top:44px;left:12%;right:12%;height:2px;background:linear-gradient(90deg,var(--aqua),var(--blue));opacity:.25}
+.step{text-align:center;padding:0 16px;position:relative}
+.step-num{width:88px;height:88px;background:linear-gradient(135deg,var(--aqua),var(--blue));border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 24px;font-size:32px;color:#fff;box-shadow:0 6px 20px rgba(0,201,167,.35);position:relative;z-index:1;transition:.3s}
+.step:hover .step-num{transform:scale(1.1) rotate(-5deg)}
+.step h3{font-family:'Poppins',sans-serif;font-weight:700;font-size:17px;color:var(--blue);margin-bottom:10px}
+.step p{font-size:14px;color:var(--muted);line-height:1.6}
+
+/* COMMERCIAL */
+.commercial{background:linear-gradient(135deg,var(--blue) 0%,#0d4a6e 100%)}
+.commercial .section-title{color:#fff}
+.commercial .section-sub{color:rgba(255,255,255,.7);max-width:100%}
+.commercial-inner{display:grid;grid-template-columns:1fr;gap:40px;max-width:700px}
+.biz-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:32px}
+.biz-card{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.12);border-radius:14px;padding:20px 18px;display:flex;align-items:center;gap:14px;transition:.2s;cursor:pointer}
+.biz-card:hover{background:rgba(0,201,167,.12);border-color:rgba(0,201,167,.4);transform:translateX(4px)}
+.biz-card .ico{font-size:28px}
+.biz-card h4{font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:3px}
+.biz-card p{font-size:12px;color:rgba(255,255,255,.55)}
+.commercial-visual{position:relative}
+.big-stat-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:32px;backdrop-filter:blur(10px)}
+.big-stat-card h2{font-family:'Poppins',sans-serif;font-size:52px;font-weight:800;color:var(--aqua);line-height:1}
+.big-stat-card p{color:rgba(255,255,255,.7);margin-top:8px;font-size:16px}
+.stat-row{display:flex;gap:24px;margin-top:32px}
+.stat-item{flex:1;background:rgba(255,255,255,.05);border-radius:12px;padding:16px;text-align:center}
+.stat-item strong{display:block;font-family:'Poppins',sans-serif;font-size:24px;font-weight:800;color:#fff}
+.stat-item span{font-size:12px;color:rgba(255,255,255,.5)}
+
+/* PRICING */
+.pricing-bg{background:var(--sky)}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.price-card{background:#fff;border-radius:var(--card-radius);padding:36px 28px;box-shadow:var(--shadow);position:relative;overflow:hidden;transition:.3s;border:2px solid transparent}
+.price-card:hover{border-color:var(--aqua);transform:translateY(-8px);box-shadow:0 12px 50px rgba(0,201,167,.2)}
+.price-card.featured{background:linear-gradient(135deg,var(--blue) 0%,#0d4a6e 100%);border-color:var(--aqua);transform:scale(1.04)}
+.price-card.featured:hover{transform:scale(1.06) translateY(-4px)}
+.featured-badge{position:absolute;top:20px;right:20px;background:var(--aqua);color:#fff;font-size:11px;font-weight:700;padding:4px 12px;border-radius:50px}
+.price-card h3{font-family:'Poppins',sans-serif;font-size:20px;font-weight:800;color:var(--blue);margin-bottom:8px}
+.price-card.featured h3{color:#fff}
+.price-big{font-family:'Poppins',sans-serif;font-size:48px;font-weight:800;color:var(--blue);line-height:1;margin:16px 0}
+.price-card.featured .price-big{color:var(--aqua)}
+.price-from{font-size:16px;font-weight:400;color:var(--muted)}
+.price-card.featured .price-from{color:rgba(255,255,255,.5)}
+.price-features{list-style:none;margin:24px 0;display:flex;flex-direction:column;gap:12px}
+.price-features li{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--text)}
+.price-card.featured .price-features li{color:rgba(255,255,255,.85)}
+.check{width:20px;height:20px;background:rgba(0,201,167,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--aqua);font-size:12px;flex-shrink:0}
+.price-card.featured .check{background:rgba(0,201,167,.25)}
+
+/* WHY CHOOSE US */
+.why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.why-card{background:#fff;border:1.5px solid rgba(11,60,93,.08);border-radius:var(--card-radius);padding:28px 24px;transition:.3s}
+.why-card:hover{border-color:var(--aqua);box-shadow:var(--shadow-lg);transform:translateY(-4px)}
+.why-icon{width:52px;height:52px;background:linear-gradient(135deg,var(--sky),rgba(0,201,167,.2));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:16px}
+.why-card h3{font-family:'Poppins',sans-serif;font-weight:700;font-size:17px;color:var(--blue);margin-bottom:8px}
+.why-card p{font-size:14px;color:var(--muted);line-height:1.6}
+
+/* TESTIMONIALS */
+.testimonials-bg{background:var(--sky)}
+.testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.testi-card{background:#fff;border-radius:var(--card-radius);padding:28px 24px;box-shadow:var(--shadow);transition:.3s;border-top:3px solid transparent}
+.testi-card:hover{border-top-color:var(--aqua);transform:translateY(-4px)}
+.stars{color:#f59e0b;font-size:16px;margin-bottom:16px}
+.testi-text{font-size:15px;color:var(--text);line-height:1.7;margin-bottom:20px;font-style:italic}
+.testi-author{display:flex;align-items:center;gap:12px}
+.avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--aqua),var(--blue));display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Poppins',sans-serif;font-weight:700;font-size:16px}
+.author-name{font-weight:700;font-size:14px;color:var(--blue)}
+.author-role{font-size:12px;color:var(--muted)}
+
+/* BOOKING FORM */
+.booking-bg{background:linear-gradient(135deg,var(--blue) 0%,#0d4a6e 100%)}
+.booking-inner{display:grid;grid-template-columns:1fr 1.4fr;gap:60px;align-items:start}
+.booking-info h2{font-family:'Poppins',sans-serif;font-size:36px;font-weight:800;color:#fff;margin-bottom:16px}
+.booking-info p{color:rgba(255,255,255,.7);font-size:16px;line-height:1.7;margin-bottom:32px}
+.booking-feature{display:flex;align-items:center;gap:12px;color:rgba(255,255,255,.85);font-size:15px;margin-bottom:14px}
+.booking-feature .dot{width:8px;height:8px;border-radius:50%;background:var(--aqua);flex-shrink:0}
+.form-card{background:rgba(255,255,255,.06);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.12);border-radius:20px;padding:36px}
+.form-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.form-group{display:flex;flex-direction:column;gap:6px}
+.form-group.full{grid-column:span 2}
+.form-group label{font-size:13px;font-weight:600;color:rgba(255,255,255,.7)}
+.form-group input,.form-group select,.form-group textarea{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:10px;padding:12px 14px;color:#fff;font-family:'Open Sans',sans-serif;font-size:14px;outline:none;transition:.2s;width:100%}
+.form-group input::placeholder,.form-group textarea::placeholder{color:rgba(255,255,255,.4)}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--aqua);background:rgba(0,201,167,.08)}
+.form-group select option{background:var(--blue);color:#fff}
+.form-group textarea{resize:vertical;min-height:90px}
+.btn-submit{width:100%;background:var(--aqua);color:#fff;border:none;padding:16px;border-radius:var(--btn-radius);font-size:16px;font-weight:700;cursor:pointer;transition:.25s;font-family:'Poppins',sans-serif;margin-top:8px}
+.btn-submit:hover{background:var(--aqua-dark);transform:translateY(-2px)}
+
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:9999;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:.3s}
+.modal-overlay.open{opacity:1;pointer-events:all}
+.modal{background:#fff;border-radius:24px;padding:48px 40px;text-align:center;max-width:420px;width:90%;transform:scale(.9);transition:.3s}
+.modal-overlay.open .modal{transform:scale(1)}
+.modal-icon{font-size:56px;margin-bottom:16px}
+.modal h3{font-family:'Poppins',sans-serif;font-size:24px;font-weight:800;color:var(--blue);margin-bottom:12px}
+.modal p{color:var(--muted);font-size:16px;line-height:1.6;margin-bottom:24px}
+.modal-close{background:var(--aqua);color:#fff;border:none;padding:12px 32px;border-radius:50px;font-size:15px;font-weight:700;cursor:pointer;font-family:'Poppins',sans-serif}
+
+/* GALLERY */
+.gallery-grid{display:grid;grid-template-columns:repeat(4,1fr);grid-template-rows:auto auto;gap:16px}
+.gallery-item{border-radius:16px;overflow:hidden;position:relative;cursor:pointer}
+.gallery-item.tall{grid-row:span 2}
+.gallery-item.wide{grid-column:span 2}
+.gallery-img{width:100%;height:100%;min-height:180px;display:flex;align-items:center;justify-content:center;font-size:48px;transition:.4s;position:relative}
+.gallery-item:hover .gallery-img{transform:scale(1.05)}
+.gallery-overlay{position:absolute;inset:0;background:rgba(11,60,93,.6);opacity:0;transition:.3s;display:flex;align-items:center;justify-content:center}
+.gallery-item:hover .gallery-overlay{opacity:1}
+.gallery-overlay span{color:#fff;font-weight:700;font-size:14px;font-family:'Poppins',sans-serif}
+.g1{background:linear-gradient(135deg,#e0f4ff,#b8e4f8);min-height:220px}
+.g2{background:linear-gradient(135deg,#e8f8f0,#b8eddb)}
+.g3{background:linear-gradient(135deg,#fff3e0,#ffe0b0)}
+.g4{background:linear-gradient(135deg,#f3e8ff,#d8b8f0)}
+.g5{background:linear-gradient(135deg,#e0f7f4,#a0e8dc);min-height:220px}
+.g6{background:linear-gradient(135deg,#fce8e8,#f0b8b8)}
+.g7{background:linear-gradient(135deg,#e8f0ff,#b8c8f4)}
+.g8{background:linear-gradient(135deg,#f8f0e0,#e8d0a0)}
+
+/* BLOG */
+.blog-bg{background:var(--sky)}
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.blog-card{background:#fff;border-radius:var(--card-radius);overflow:hidden;box-shadow:var(--shadow);transition:.3s}
+.blog-card:hover{transform:translateY(-6px);box-shadow:var(--shadow-lg)}
+.blog-thumb{height:180px;display:flex;align-items:center;justify-content:center;font-size:52px;position:relative;overflow:hidden}
+.b1{background:linear-gradient(135deg,#e0f4ff,#b8e4f8)}
+.b2{background:linear-gradient(135deg,#e8f8f0,#b8eddb)}
+.b3{background:linear-gradient(135deg,#fff3e0,#ffe0b0)}
+.blog-content{padding:24px}
+.blog-tag{display:inline-block;background:var(--sky);color:var(--aqua);font-size:11px;font-weight:700;padding:4px 12px;border-radius:50px;margin-bottom:12px}
+.blog-card h3{font-family:'Poppins',sans-serif;font-size:17px;font-weight:700;color:var(--blue);margin-bottom:10px;line-height:1.4}
+.blog-card p{font-size:14px;color:var(--muted);line-height:1.6;margin-bottom:16px}
+.blog-meta{font-size:12px;color:var(--muted)}
+.read-more{color:var(--aqua);font-weight:700;font-size:14px;text-decoration:none}
+.read-more:hover{color:var(--blue)}
+
+/* CONTACT */
+.contact-inner{display:grid;grid-template-columns:1fr 1.5fr;gap:60px}
+.contact-item{display:flex;align-items:flex-start;gap:16px;margin-bottom:28px}
+.contact-icon{width:48px;height:48px;background:linear-gradient(135deg,var(--sky),rgba(0,201,167,.2));border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.contact-label{font-size:12px;font-weight:700;color:var(--aqua);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px}
+.contact-val{font-size:15px;color:var(--text);font-weight:500}
+.map-placeholder{background:linear-gradient(135deg,#e0f4ff,#d0ecf8);border-radius:var(--card-radius);height:320px;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:12px;border:1.5px solid rgba(0,201,167,.2)}
+.map-placeholder span{font-size:48px}
+.map-placeholder p{font-family:'Poppins',sans-serif;font-size:16px;font-weight:600;color:var(--blue)}
+.wa-btn{display:inline-flex;align-items:center;gap:10px;background:#25d366;color:#fff;padding:14px 28px;border-radius:50px;font-size:15px;font-weight:700;text-decoration:none;margin-top:24px;transition:.2s;font-family:'Poppins',sans-serif}
+.wa-btn:hover{background:#1db954;transform:translateY(-2px)}
+
+/* FOOTER */
+footer{background:var(--blue-dark);padding:64px 0 32px}
+.footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:48px;margin-bottom:48px}
+.footer-brand p{font-size:14px;color:rgba(255,255,255,.5);line-height:1.7;margin-top:16px;margin-bottom:24px}
+.social-links{display:flex;gap:10px}
+.social-link{width:36px;height:36px;background:rgba(255,255,255,.08);border-radius:10px;display:flex;align-items:center;justify-content:center;color:rgba(255,255,255,.7);text-decoration:none;font-size:16px;transition:.2s}
+.social-link:hover{background:var(--aqua);color:#fff}
+.footer-col h4{font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;color:#fff;margin-bottom:20px}
+.footer-links{list-style:none;display:flex;flex-direction:column;gap:10px}
+.footer-links a{color:rgba(255,255,255,.5);text-decoration:none;font-size:14px;transition:.2s}
+.footer-links a:hover{color:var(--aqua)}
+.newsletter-input{display:flex;gap:8px;margin-top:12px}
+.newsletter-input input{flex:1;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);border-radius:10px;padding:11px 14px;color:#fff;font-family:'Open Sans',sans-serif;font-size:14px;outline:none}
+.newsletter-input input::placeholder{color:rgba(255,255,255,.4)}
+.newsletter-input input:focus{border-color:var(--aqua)}
+.newsletter-input button{background:var(--aqua);color:#fff;border:none;padding:11px 18px;border-radius:10px;cursor:pointer;font-weight:700;font-family:'Open Sans',sans-serif;transition:.2s}
+.newsletter-input button:hover{background:var(--aqua-dark)}
+.footer-bottom{border-top:1px solid rgba(255,255,255,.08);padding-top:28px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+.footer-bottom p{color:rgba(255,255,255,.35);font-size:13px}
+
+/* FLOATING ELEMENTS */
+.float-wa{position:fixed;bottom:28px;right:28px;z-index:998;width:56px;height:56px;background:#25d366;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;box-shadow:0 4px 20px rgba(37,211,102,.5);text-decoration:none;transition:.2s;animation:pulse 2s ease infinite}
+@keyframes pulse{0%,100%{box-shadow:0 4px 20px rgba(37,211,102,.5)}50%{box-shadow:0 4px 32px rgba(37,211,102,.7),0 0 0 8px rgba(37,211,102,.1)}}
+.float-wa:hover{transform:scale(1.1)}
+.sticky-book{position:fixed;bottom:28px;left:28px;z-index:998;background:var(--aqua);color:#fff;padding:13px 22px;border-radius:50px;font-size:14px;font-weight:700;text-decoration:none;font-family:'Poppins',sans-serif;box-shadow:0 4px 20px rgba(0,201,167,.45);transition:.2s;display:flex;align-items:center;gap:8px}
+.sticky-book:hover{background:var(--aqua-dark);transform:translateY(-2px)}
+
+/* RESPONSIVE */
+@media(max-width:1024px){
+  .hero-inner{grid-template-columns:1fr;gap:40px}
+  .hero-visual{display:none}
+  .commercial-inner{grid-template-columns:1fr}
+  .commercial-visual{display:none}
+  .pricing-grid{grid-template-columns:1fr}
+  .price-card.featured{transform:none}
+  .footer-grid{grid-template-columns:1fr 1fr}
+}
+@media(max-width:768px){
+  nav .nav-links{display:none}
+  .hamburger{display:flex}
+  .hero-inner{padding:100px 24px 60px}
+  .steps{grid-template-columns:1fr 1fr}
+  .steps::before{display:none}
+  .why-grid{grid-template-columns:1fr 1fr}
+  .services-grid{grid-template-columns:1fr 1fr}
+  .testi-grid{grid-template-columns:1fr}
+  .booking-inner{grid-template-columns:1fr}
+  .form-grid{grid-template-columns:1fr}
+  .form-group.full{grid-column:span 1}
+  .gallery-grid{grid-template-columns:1fr 1fr}
+  .gallery-item.wide{grid-column:span 1}
+  .gallery-item.tall{grid-row:span 1}
+  .blog-grid{grid-template-columns:1fr}
+  .contact-inner{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr}
+  .biz-grid{grid-template-columns:1fr}
+  .hero-stats{gap:20px}
+}
+@media(max-width:480px){
+  .steps{grid-template-columns:1fr}
+  .why-grid{grid-template-columns:1fr}
+  .services-grid{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- FLOATING WA -->
+<a href="#" class="float-wa" title="WhatsApp">💬</a>
+<a href="#booking" class="sticky-book">📅 Book Now</a>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <button class="close-menu" onclick="closeMobile()">✕</button>
+  <a href="#services" onclick="closeMobile()">Services</a>
+  <a href="#how-it-works" onclick="closeMobile()">How It Works</a>
+  <a href="#contact" onclick="closeMobile()">Contact</a>
+  <a href="#booking" onclick="closeMobile()" style="color:var(--aqua)">📅 Book Pickup</a>
+</div>
+
+<!-- NAV -->
+<nav id="navbar">
+  <div class="nav-inner">
+    <a href="#" class="logo">
+      <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M21 7L3 7M17 12H3M13 17H3" stroke="#fff" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg></div>
+      SparkClean
+    </a>
+    <ul class="nav-links">
+      <li><a href="#services">Services</a></li>
+      <li><a href="#how-it-works">How It Works</a></li>
+      <li><a href="#contact">Contact</a></li>
+      <li><a href="#booking" class="btn-nav">Book Pickup</a></li>
+    </ul>
+    <div class="hamburger" onclick="openMobile()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO SLIDER -->
+<section class="hero" id="home">
+
+  <div class="hero-slider" id="heroSlider">
+    <div class="slide active" style="background-image:url('https://i.pinimg.com/1200x/29/17/2d/29172dd4464418b37373ad8387d37df5.jpg')"><div class="slide-overlay"></div></div>
+    <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1582735689369-4fe89db7114c?w=1600&q=80')"><div class="slide-overlay"></div></div>
+    <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1545173168-9f1947eebb7f?w=1600&q=80')"><div class="slide-overlay"></div></div>
+    <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1631049307264-da0ec9d70304?w=1600&q=80')"><div class="slide-overlay"></div></div>
+  </div>
+
+  <!-- Dynamic content -->
+  <div class="hero-slider-inner">
+    <div class="slide-content" id="slideContent">
+      <div class="hero-badge" id="slideBadge">✨ #1 Laundry Service in the City</div>
+      <h1 id="slideTitle">Professional <span>Laundry</span> &amp; Dry Cleaning</h1>
+      <p id="slideDesc">Fast, affordable, and convenient laundry solutions delivered right to your door. We care for your clothes like our own.</p>
+      <div class="hero-btns">
+        <a href="#booking" class="btn-primary" id="slideBtn1">📅 Book Pickup Now</a>
+        <a href="#services" class="btn-outline" id="slideBtn2">View Services →</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Controls -->
+  <button class="slider-prev" onclick="changeSlide(-1)">&#8249;</button>
+  <button class="slider-next" onclick="changeSlide(1)">&#8250;</button>
+  <div class="slider-dots" id="sliderDots">
+    <span class="dot active" onclick="goToSlide(0)"></span>
+    <span class="dot" onclick="goToSlide(1)"></span>
+    <span class="dot" onclick="goToSlide(2)"></span>
+    <span class="dot" onclick="goToSlide(3)"></span>
+  </div>
+
+
+
+</section>
+
+<!-- SERVICES -->
+<section id="services" class="services-bg">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-label">Our Services</div>
+      <h2 class="section-title">Everything Your Clothes Need</h2>
+      <p class="section-sub">From everyday laundry to delicate garments and household items — we handle it all with expert care.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card"><div class="service-icon">👕</div><h3>Wash & Fold</h3><p>Fresh, neatly folded laundry using premium detergents and fabric softeners.</p><div class="service-arrow">→</div></div>
+      <div class="service-card"><div class="service-icon">🧥</div><h3>Dry Cleaning</h3><p>Professional solvent cleaning for delicate fabrics, suits, and special garments.</p><div class="service-arrow">→</div></div>
+      <div class="service-card"><div class="service-icon">🔥</div><h3>Steam Ironing</h3><p>Crisp, wrinkle-free clothing with industrial steam pressing techniques.</p><div class="service-arrow">→</div></div>
+      <div class="service-card"><div class="service-icon">🏠</div><h3>Carpet Cleaning</h3><p>Deep clean and sanitize carpets using eco-friendly solutions for a fresh home.</p><div class="service-arrow">→</div></div>
+      <div class="service-card"><div class="service-icon">🪟</div><h3>Curtain Cleaning</h3><p>Safe cleaning for all curtain types — machine washable and dry clean only.</p><div class="service-arrow">→</div></div>
+      <div class="service-card"><div class="service-icon">👰</div><h3>Wedding Dress</h3><p>Preservation and cleaning of your most precious garment with utmost care.</p><div class="service-arrow">→</div></div>
+      <div class="service-card"><div class="service-icon">🛏️</div><h3>Blanket & Duvet</h3><p>Thorough cleaning and refreshing of all bedding and heavy items.</p><div class="service-arrow">→</div></div>
+      <div class="service-card"><div class="service-icon">👟</div><h3>Shoe & Bag Care</h3><p>Restore and clean leather, suede, and fabric shoes and designer bags.</p><div class="service-arrow">→</div></div>
+
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section id="how-it-works">
+  <div class="container">
+    <div class="section-head" style="text-align:center">
+      <div class="section-label">Process</div>
+      <h2 class="section-title" style="max-width:500px;margin:0 auto 16px">How It Works in 4 Easy Steps</h2>
+      <p class="section-sub" style="margin:0 auto">Sit back and relax — we do all the heavy lifting for your laundry needs.</p>
+    </div>
+    <div class="steps">
+      <div class="step"><div class="step-num">📅</div><h3>Schedule Pickup</h3><p>Book online, by phone, or via our app. Choose your preferred date and time slot.</p></div>
+      <div class="step"><div class="step-num">🚗</div><h3>We Collect</h3><p>Our friendly driver arrives at your door and collects your laundry in protective bags.</p></div>
+      <div class="step"><div class="step-num">🧺</div><h3>Pro Cleaning</h3><p>Your items are sorted, cleaned, and treated by our expert laundry technicians.</p></div>
+      <div class="step"><div class="step-num">✅</div><h3>Delivered Clean</h3><p>Fresh, clean, and neatly packaged clothes delivered back to your door, on time.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- COMMERCIAL -->
+<section class="commercial" style="background:linear-gradient(rgba(7,45,70,0.6),rgba(7,45,70,0.6)),url('https://i.pinimg.com/1200x/9d/42/6d/9d426da81011154cfa1e7aa01782c1ca.jpg') center/cover no-repeat;">
+  <div class="container">
+    <div class="commercial-inner">
+      <div>
+        <div class="section-label" style="color:var(--aqua)">Commercial Solutions</div>
+        <h2 class="section-title">Laundry at Scale for Your Business</h2>
+        <p class="section-sub">We provide reliable, high-volume laundry services for businesses that need consistent quality and fast turnaround.</p>
+        <div class="biz-grid">
+          <div class="biz-card"><div class="ico">🏨</div><div><h4>Hotels</h4><p>Linens & towels</p></div></div>
+          <div class="biz-card"><div class="ico">🏡</div><div><h4>Guest Houses</h4><p>Bedding & uniforms</p></div></div>
+          <div class="biz-card"><div class="ico">🍽️</div><div><h4>Restaurants</h4><p>Table cloths & aprons</p></div></div>
+          <div class="biz-card"><div class="ico">💪</div><div><h4>Gyms</h4><p>Towels & sportswear</p></div></div>
+          <div class="biz-card"><div class="ico">🏫</div><div><h4>Schools</h4><p>Uniforms & sports kits</p></div></div>
+          <div class="biz-card"><div class="ico">🎉</div><div><h4>Event Centers</h4><p>Tablecloths & drapes</p></div></div>
+        </div>
+        <br>
+        <a href="#contact" class="btn-primary">Get Commercial Quote</a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+
+
+<!-- WHY CHOOSE US -->
+<section>
+  <div class="container">
+    <div class="section-head" style="text-align:center">
+      <div class="section-label">Why Choose Us</div>
+      <h2 class="section-title">We Go the Extra Mile</h2>
+      <p class="section-sub" style="margin:0 auto">Here's why thousands of customers trust SparkClean for their laundry needs.</p>
+    </div>
+    <div class="why-grid">
+      <div class="why-card"><div class="why-icon">💰</div><h3>Affordable Pricing</h3><p>Competitive rates with no hidden fees. Quality cleaning that fits every budget.</p></div>
+      <div class="why-card"><div class="why-icon">🌿</div><h3>Eco-Friendly Cleaning</h3><p>Biodegradable detergents and water-efficient machines for a greener planet.</p></div>
+      <div class="why-card"><div class="why-icon">⚡</div><h3>Fast Express Delivery</h3><p>Same-day and next-day options available. Your clothes back when you need them.</p></div>
+      <div class="why-card"><div class="why-icon">👨‍💼</div><h3>Professional Staff</h3><p>Trained, background-checked laundry experts who treat your items with care.</p></div>
+      <div class="why-card"><div class="why-icon">🏭</div><h3>Advanced Machines</h3><p>Commercial-grade washers and dryers delivering a deeper, more effective clean.</p></div>
+      <div class="why-card"><div class="why-icon">📍</div><h3>Order Tracking</h3><p>Real-time SMS and app updates from pickup to delivery — always in the loop.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials-bg" style="background:linear-gradient(rgba(7,45,70,0.55),rgba(7,45,70,0.55)),url('https://i.pinimg.com/1200x/ff/e7/c5/ffe7c5631a938bc1b21328fcd08e0074.jpg') center/cover no-repeat;">
+  <div class="container">
+    <div class="section-head" style="text-align:center">
+      <div class="section-label">Testimonials</div>
+      <h2 class="section-title" style="color:#fff">What Our Customers Say</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card"><div class="stars">★★★★★</div><p class="testi-text">"SparkClean has transformed my weekly routine. My suits come back perfectly pressed every single time. Absolutely worth every penny!"</p><div class="testi-author"><div class="avatar">JM</div><div><div class="author-name">James Mitchell</div><div class="author-role">Business Executive</div></div></div></div>
+      <div class="testi-card"><div class="stars">★★★★★</div><p class="testi-text">"The wedding dress cleaning service was exceptional. My gown looks as beautiful as the day I bought it. I'm so glad I chose SparkClean."</p><div class="testi-author"><div class="avatar">SA</div><div><div class="author-name">Sarah Anderson</div><div class="author-role">Bride & Customer</div></div></div></div>
+      <div class="testi-card"><div class="stars">★★★★★</div><p class="testi-text">"We use SparkClean for our boutique hotel. Consistent quality, always on time, and the staff is incredibly professional. Highly recommend!"</p><div class="testi-author"><div class="avatar">DK</div><div><div class="author-name">David Kumar</div><div class="author-role">Hotel Manager</div></div></div></div>
+      <div class="testi-card"><div class="stars">★★★★☆</div><p class="testi-text">"Same-day turnaround is a game changer for a busy mom like me. Pickup and delivery is seamless, and my kids' clothes always smell amazing."</p><div class="testi-author"><div class="avatar">LP</div><div><div class="author-name">Laura Peters</div><div class="author-role">Working Mother</div></div></div></div>
+      <div class="testi-card"><div class="stars">★★★★★</div><p class="testi-text">"Best carpet cleaning I've ever experienced. They removed stains I thought were permanent. My carpets look brand new. Truly amazing service."</p><div class="testi-author"><div class="avatar">RC</div><div><div class="author-name">Robert Chen</div><div class="author-role">Homeowner</div></div></div></div>
+      <div class="testi-card"><div class="stars">★★★★★</div><p class="testi-text">"I appreciate the eco-friendly approach. Knowing my laundry is done without harsh chemicals gives me peace of mind. Great quality too!"</p><div class="testi-author"><div class="avatar">AM</div><div><div class="author-name">Aisha Mohammed</div><div class="author-role">Environmental Consultant</div></div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING FORM -->
+<section id="booking" class="booking-bg">
+  <div class="container">
+    <div class="booking-inner">
+      <div class="booking-info">
+        <div class="section-label" style="color:var(--aqua)">Book a Pickup</div>
+        <h2>Schedule Your Laundry Pickup Today</h2>
+        <p>Fill in the form and we'll confirm your booking within 30 minutes. Our driver will arrive at your chosen time.</p>
+        <div class="booking-feature"><div class="dot"></div>Same-day service available before 10 AM</div>
+        <div class="booking-feature"><div class="dot"></div>100% satisfaction guarantee or re-clean free</div>
+      </div>
+      <div class="form-card">
+        <form id="bookingForm" onsubmit="submitForm(event)">
+          <div class="form-grid">
+            <div class="form-group"><label>Full Name *</label><input type="text" placeholder="John Smith" required></div>
+            <div class="form-group"><label>Phone Number *</label><input type="tel" placeholder="+1 555 0123" required></div>
+            <div class="form-group"><label>Email Address</label><input type="email" placeholder="john@example.com"></div>
+            <div class="form-group"><label>Pickup Date *</label><input type="date" required></div>
+            <div class="form-group full"><label>Pickup Address *</label><input type="text" placeholder="123 Main Street, Apt 4B" required></div>
+            <div class="form-group"><label>Pickup Time *</label>
+              <select required>
+                <option value="">Select time</option>
+                <option>8:00 AM – 10:00 AM</option>
+                <option>10:00 AM – 12:00 PM</option>
+                <option>12:00 PM – 2:00 PM</option>
+                <option>2:00 PM – 4:00 PM</option>
+                <option>4:00 PM – 6:00 PM</option>
+              </select>
+            </div>
+            <div class="form-group"><label>Service Type *</label>
+              <select required>
+                <option value="">Select service</option>
+                <option>Wash & Fold</option>
+                <option>Dry Cleaning</option>
+                <option>Steam Ironing</option>
+                <option>Carpet Cleaning</option>
+                <option>Curtain Cleaning</option>
+                <option>Wedding Dress</option>
+                <option>Blanket & Duvet</option>
+                <option>Shoe & Bag Care</option>
+                <option>Multiple Services</option>
+              </select>
+            </div>
+            <div class="form-group full"><label>Special Instructions</label><textarea placeholder="Any special care instructions, fragrance preferences, or notes..."></textarea></div>
+          </div>
+          <button type="submit" class="btn-submit">📅 Confirm Pickup Booking</button>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="container">
+    <div class="section-head">
+      <div class="section-label">Get In Touch</div>
+      <h2 class="section-title">Contact Us</h2>
+    </div>
+    <div class="contact-inner">
+      <div>
+        <div class="contact-item"><div class="contact-icon">📞</div><div><div class="contact-label">Phone</div><div class="contact-val">+1 (555) 123-4567</div><div class="contact-val">+1 (555) 765-4321</div></div></div>
+        <div class="contact-item"><div class="contact-icon">✉️</div><div><div class="contact-label">Email</div><div class="contact-val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="325a575e5e5d724142534059515e57535c1c515d5f">[email&#160;protected]</a></div><div class="contact-val"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="0b787e7b7b64797f4b787b6a796068676e6a6525686466">[email&#160;protected]</a></div></div></div>
+        <div class="contact-item"><div class="contact-icon">📍</div><div><div class="contact-label">Address</div><div class="contact-val">245 Clean Street, Downtown<br>New York, NY 10001</div></div></div>
+        <div class="contact-item"><div class="contact-icon">🕐</div><div><div class="contact-label">Hours</div><div class="contact-val">Mon – Fri: 7 AM – 9 PM<br>Sat – Sun: 8 AM – 6 PM</div></div></div>
+        <a href="https://wa.me/15551234567" class="wa-btn">💬 Chat on WhatsApp</a>
+      </div>
+      <div>
+        <div class="map-placeholder">
+          <span>🗺️</span>
+          <p>245 Clean Street, Downtown NY</p>
+          <a href="https://maps.google.com" target="_blank" class="btn-primary" style="margin-top:8px;font-size:14px;padding:11px 24px">Open in Google Maps</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a href="#" class="logo">
+          <div class="logo-icon"><svg viewBox="0 0 24 24"><path d="M21 7L3 7M17 12H3M13 17H3" stroke="#fff" stroke-width="2.5" stroke-linecap="round" fill="none"/></svg></div>
+          SparkClean
+        </a>
+        <p>Professional laundry and dry cleaning services you can trust. Fast, eco-friendly, and delivered to your door.</p>
+        <div class="social-links">
+          <a class="social-link" href="#">f</a>
+          <a class="social-link" href="#">𝕏</a>
+          <a class="social-link" href="#">in</a>
+          <a class="social-link" href="#">📸</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul class="footer-links">
+          <li><a href="#home">Home</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#how-it-works">How It Works</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul class="footer-links">
+          <li><a href="#">Wash & Fold</a></li>
+          <li><a href="#">Dry Cleaning</a></li>
+          <li><a href="#">Steam Ironing</a></li>
+          <li><a href="#">Carpet Cleaning</a></li>
+          <li><a href="#">Wedding Dress</a></li>
+          <li><a href="#">Commercial</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Newsletter</h4>
+        <p style="color:rgba(255,255,255,.5);font-size:14px;line-height:1.6;margin-bottom:4px">Get laundry tips and exclusive offers directly in your inbox.</p>
+        <div class="newsletter-input">
+          <input type="email" placeholder="Your email address">
+          <button onclick="subscribeNewsletter()">→</button>
+        </div>
+        <p style="color:rgba(255,255,255,.35);font-size:12px;margin-top:12px">✓ No spam. Unsubscribe anytime.</p>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2025 SparkClean Laundry Services. All rights reserved.</p>
+      <p><a href="#" style="color:rgba(255,255,255,.35);text-decoration:none">Privacy Policy</a> · <a href="#" style="color:rgba(255,255,255,.35);text-decoration:none">Terms of Service</a></p>
+    </div>
+  </div>
+</footer>
+
+<!-- CONFIRMATION MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-icon">✅</div>
+    <h3>Booking Confirmed!</h3>
+    <p>Thank you! We've received your pickup request. You'll get an SMS confirmation within 30 minutes. Our driver will see you soon!</p>
+    <button class="modal-close" onclick="closeModal()">Got it, thanks!</button>
+  </div>
+</div>
+
+
+<script>
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60)
+});
+function openMobile(){document.getElementById('mobileMenu').classList.add('open')}
+function closeMobile(){document.getElementById('mobileMenu').classList.remove('open')}
+function submitForm(e){e.preventDefault();document.getElementById('modal').classList.add('open');e.target.reset()}
+function closeModal(){document.getElementById('modal').classList.remove('open')}
+function subscribeNewsletter(){alert('Thank you for subscribing! Check your inbox for a welcome discount.')}
+
+const observer=new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.style.opacity='1';e.target.style.transform='translateY(0)'}})
+},{threshold:.1});
+document.querySelectorAll('.service-card,.step,.why-card,.testi-card,.price-card,.biz-card,.blog-card,.gallery-item').forEach(el=>{
+  el.style.opacity='0';el.style.transform='translateY(30px)';el.style.transition='opacity .6s ease,transform .6s ease';
+  observer.observe(el);
+});
+
+const slidesData=[
+  {badge:'✨ #1 Laundry Service in the City',title:'Professional <span style="color:var(--aqua)">Laundry</span> &amp; Dry Cleaning',desc:'Fast, affordable, and convenient laundry solutions delivered right to your door. We care for your clothes like our own.',btn1:'📅 Book Pickup Now',h1:'#booking',btn2:'View Services →',h2:'#services'},
+  {badge:'🧺 Expert Dry Cleaning',title:'Dry Cleaning <span style="color:var(--aqua)">Service</span>',desc:'Fast and affordable dry cleaning for your finest garments — handled with expert precision and care.',btn1:'📅 Book Pickup Now',h1:'#booking',btn2:'Request A Quote →',h2:'#pricing'},
+  {badge:'⚡ Same Day Delivery',title:'Fresh &amp; Clean <span style="color:var(--aqua)">Every Time</span>',desc:'We collect, clean, and deliver — so you never have to worry about laundry again. Guaranteed quality.',btn1:'📅 Schedule Pickup',h1:'#booking',btn2:'How It Works →',h2:'#how-it-works'},
+  {badge:'🏢 Commercial Solutions',title:'Laundry for <span style="color:var(--aqua)">Your Business</span>',desc:'High-volume laundry services for hotels, restaurants, gyms and event centers. Reliable and scalable.',btn1:'Get A Quote',h1:'#contact',btn2:'Our Services →',h2:'#services'}
+];
+
+let cur=0,autoTmr,animating=false;
+
+function updateContent(i){
+  const s=slidesData[i];
+  const c=document.getElementById('slideContent');
+  c.style.transition='opacity .3s,transform .3s';
+  c.style.opacity='0';c.style.transform='translateY(24px)';
+  setTimeout(()=>{
+    document.getElementById('slideBadge').innerHTML=s.badge;
+    document.getElementById('slideTitle').innerHTML=s.title;
+    document.getElementById('slideDesc').textContent=s.desc;
+    document.getElementById('slideBtn1').innerHTML=s.btn1;
+    document.getElementById('slideBtn1').href=s.h1;
+    document.getElementById('slideBtn2').innerHTML=s.btn2;
+    document.getElementById('slideBtn2').href=s.h2;
+    c.style.transition='opacity .7s,transform .7s';
+    c.style.opacity='1';c.style.transform='translateY(0)';
+  },320);
+}
+function goToSlide(n){
+  if(animating||n===cur)return;
+  animating=true;
+  document.querySelectorAll('.slide')[cur].classList.remove('active');
+  cur=n;
+  document.querySelectorAll('.slide')[cur].classList.add('active');
+  document.querySelectorAll('.dot').forEach((d,i)=>d.classList.toggle('active',i===cur));
+  updateContent(cur);
+  setTimeout(()=>{animating=false},1300);
+  clearInterval(autoTmr);
+  autoTmr=setInterval(()=>goToSlide((cur+1)%4),5500);
+}
+function changeSlide(d){goToSlide((cur+d+4)%4)}
+autoTmr=setInterval(()=>goToSlide((cur+1)%4),5500);
+</script>
+</body>
+</html>
